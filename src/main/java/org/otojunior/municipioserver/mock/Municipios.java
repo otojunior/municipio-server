@@ -1,11 +1,13 @@
 /**
  * 
  */
-package org.otojunior.municipioserver.model;
+package org.otojunior.municipioserver.mock;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.otojunior.municipioserver.model.Municipio;
 
 /**
  * @author 01456231650
