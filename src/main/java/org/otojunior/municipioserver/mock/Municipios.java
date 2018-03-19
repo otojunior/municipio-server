@@ -14,10 +14,11 @@ import org.otojunior.municipioserver.model.Municipio;
  *
  */
 public class Municipios {
+	public static final int COUNT_MUNICIPIOS = 5;
 	private static List<Municipio> municipios = new ArrayList<>();
 	
 	static {
-		for (int i = 1; i <= 5; i++) {
+		for (int i = 1; i <= COUNT_MUNICIPIOS; i++) {
 			Municipio m = new Municipio();
 			m.setId(i);
 			m.setNome("Municipio " + i);
@@ -57,9 +58,10 @@ public class Municipios {
 	
 	/**
 	 * 
+	 * @param registros 
 	 * @return
 	 */
-	public static List<Municipio> obterMunicipios() {
-		return municipios;
+	public static List<Municipio> obterMunicipios(int registros) {
+		return municipios.subList(0, registros);
 	}
 }

@@ -32,6 +32,7 @@ public class JerseyConfig extends ResourceConfig {
 	 * 
 	 */
 	public JerseyConfig() {
+		register(CORSResponseFilter.class);
 		register(MunicipioService.class);
 		register(DownloadService.class);
 	}

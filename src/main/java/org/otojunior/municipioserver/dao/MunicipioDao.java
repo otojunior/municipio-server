@@ -33,7 +33,7 @@ public class MunicipioDao {
 	public Municipio obterMunicipio(Integer id) {
 		Municipio retorno = null;
 		try {
-			retorno = Municipios.obterMunicipios().
+			retorno = Municipios.obterMunicipios(Municipios.COUNT_MUNICIPIOS).
 				stream().
 				filter(m -> m.getId().equals(id)).
 				findFirst().
@@ -51,28 +51,33 @@ public class MunicipioDao {
 
 	/**
 	 * 
+	 * @param registros 
 	 * @return
 	 */
-	public List<Municipio> obterMunicipios() {
-		return Municipios.obterMunicipios();
+	public List<Municipio> obterMunicipios(int registros) {
+		return Municipios.obterMunicipios(registros);
 	}
 
 	/**
-	 * 
+	 * @param numero registros a retornar
 	 * @return
 	 */
-	public byte[] obterMunicipiosCsv() {
+	public byte[] obterMunicipiosCsv(int registros) {
 		try (StringWriter writer = new StringWriter()) {
-			List<Municipio> municipios = obterMunicipios();
-			StatefulBeanToCsv<Municipio> beanToCsv = new StatefulBeanToCsvBuilder<Municipio>(writer).
-				withLineEnd(CSVWriter.DEFAULT_LINE_END).
-				withSeparator(';').
-				withQuotechar(CSVWriter.DEFAULT_QUOTE_CHARACTER).
-				build();
-			beanToCsv.write(municipios);
-			return 
-				writer.toString().
-				getBytes(Charset.forName("ISO-8859-1"));
+			List<Municipio> municipios = obterMunicipios(registros);
+			if (!municipios.isEmpty()) {
+				StatefulBeanToCsv<Municipio> beanToCsv = new StatefulBeanToCsvBuilder<Municipio>(writer).
+					withLineEnd(CSVWriter.DEFAULT_LINE_END).
+					withSeparator(';').
+					withQuotechar(CSVWriter.DEFAULT_QUOTE_CHARACTER).
+					build();
+				beanToCsv.write(municipios);
+				return 
+					writer.toString().
+					getBytes(Charset.forName("ISO-8859-1"));
+			} else {
+				return new byte[0];
+			}
 		} catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException | IOException ex) {
             ex.printStackTrace();
             return null;
