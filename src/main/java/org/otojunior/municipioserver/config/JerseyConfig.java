@@ -17,6 +17,7 @@
 package org.otojunior.municipioserver.config;
 
 import org.glassfish.jersey.server.ResourceConfig;
+import org.otojunior.municipioserver.service.DownloadService;
 import org.otojunior.municipioserver.service.MunicipioService;
 import org.springframework.stereotype.Component;
 
@@ -32,5 +33,6 @@ public class JerseyConfig extends ResourceConfig {
 	 */
 	public JerseyConfig() {
 		register(MunicipioService.class);
+		register(DownloadService.class);
 	}
 }
