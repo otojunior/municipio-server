@@ -9,6 +9,7 @@ import java.nio.charset.Charset;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.otojunior.municipioserver.mock.Municipios;
 import org.otojunior.municipioserver.model.Municipio;
 import org.springframework.stereotype.Component;
@@ -33,7 +34,7 @@ public class MunicipioDao {
 	public Municipio obterMunicipio(Integer id) {
 		Municipio retorno = null;
 		try {
-			retorno = Municipios.obterMunicipios(Municipios.COUNT_MUNICIPIOS).
+			retorno = Municipios.obterMunicipios().
 				stream().
 				filter(m -> m.getId().equals(id)).
 				findFirst().
@@ -54,33 +55,32 @@ public class MunicipioDao {
 	 * @param registros 
 	 * @return
 	 */
-	public List<Municipio> obterMunicipios(int registros) {
-		return Municipios.obterMunicipios(registros);
+	public List<Municipio> obterMunicipios() {
+		return Municipios.obterMunicipios();
 	}
 
 	/**
 	 * @param numero registros a retornar
 	 * @return
 	 */
-	public byte[] obterMunicipiosCsv(int registros) {
-		try (StringWriter writer = new StringWriter()) {
-			List<Municipio> municipios = obterMunicipios(registros);
-			if (!municipios.isEmpty()) {
+	public byte[] obterMunicipiosCsv() {
+		byte[] retorno = new byte[0];
+		List<Municipio> municipios = obterMunicipios();
+		if (CollectionUtils.isNotEmpty(municipios)) {
+			try (StringWriter writer = new StringWriter()) {
 				StatefulBeanToCsv<Municipio> beanToCsv = new StatefulBeanToCsvBuilder<Municipio>(writer).
 					withLineEnd(CSVWriter.DEFAULT_LINE_END).
 					withSeparator(';').
 					withQuotechar(CSVWriter.DEFAULT_QUOTE_CHARACTER).
 					build();
 				beanToCsv.write(municipios);
-				return 
-					writer.toString().
+				retorno = writer.
+					toString().
 					getBytes(Charset.forName("ISO-8859-1"));
-			} else {
-				return new byte[0];
-			}
-		} catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException | IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
+			} catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException | IOException ex) {
+	            ex.printStackTrace();
+	        } 
+		} 
+		return retorno;
 	}
 }

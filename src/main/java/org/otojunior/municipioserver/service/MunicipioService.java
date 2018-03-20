@@ -93,7 +93,7 @@ public class MunicipioService {
 	 */
 	@GET
 	public List<Municipio> obterMunicipios() {
-		return dao.obterMunicipios(Municipios.COUNT_MUNICIPIOS);
+		return dao.obterMunicipios();
 	}
 	
 	/**

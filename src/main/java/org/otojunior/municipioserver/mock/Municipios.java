@@ -14,7 +14,7 @@ import org.otojunior.municipioserver.model.Municipio;
  *
  */
 public class Municipios {
-	public static final int COUNT_MUNICIPIOS = 5;
+	private static final int COUNT_MUNICIPIOS = 5;
 	private static List<Municipio> municipios = new ArrayList<>();
 	
 	static {
@@ -61,7 +61,7 @@ public class Municipios {
 	 * @param registros 
 	 * @return
 	 */
-	public static List<Municipio> obterMunicipios(int registros) {
-		return municipios.subList(0, registros);
+	public static List<Municipio> obterMunicipios() {
+		return municipios;
 	}
 }
