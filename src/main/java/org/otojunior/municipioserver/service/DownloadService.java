@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.otojunior.municipioserver.dao.MunicipioDao;
+import org.otojunior.municipioserver.model.Arquivo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -39,7 +40,19 @@ public class DownloadService {
 			type(MediaType.APPLICATION_OCTET_STREAM).
 			header("Content-Disposition", "attachment; filename=municipios.csv").
 			build();
-		
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	@GET
+	@Path("/municipio/experimental")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response downloadMunicipioJson() {
+		return Response.
+			ok(new Arquivo("municipios.csv", false, municipioDao.obterMunicipiosCsv())).
+			build();
 	}
 	
 	/**

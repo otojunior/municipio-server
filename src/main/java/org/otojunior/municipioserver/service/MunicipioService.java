@@ -109,6 +109,4 @@ public class MunicipioService {
 		Municipios.removerMunicipio(id);
 		return "[OK] Registro(s) Removido(s)";
 	}
-	
-	
 }
